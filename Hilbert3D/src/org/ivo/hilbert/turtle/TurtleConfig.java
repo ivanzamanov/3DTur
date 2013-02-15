@@ -17,7 +17,7 @@ public class TurtleConfig {
 		this.setAppearance(createDefaultAppearance());
 		this.setSegmentLength(0.3f);
 		this.setSaveTransforms(true);
-		this.setDrawProxy(new BoxDrawProxy());
+		this.setDrawProxy(new SmoothCurve());
 	}
 
 	public Appearance getAppearance() {

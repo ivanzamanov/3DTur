@@ -19,6 +19,7 @@ import org.ivo.hilbert.grammar.LSystemGrammar;
 import org.ivo.hilbert.turtle.Turtle3D;
 import org.ivo.hilbert.turtle.TurtleConfig;
 import org.ivo.hilbert.turtle.TurtleFactory;
+import org.ivo.hilbert.utils.Utils;
 
 import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
 import com.sun.j3d.utils.behaviors.mouse.MouseWheelZoom;
@@ -55,14 +56,13 @@ public class Hilbert3D extends JApplet {
 		addBackground(graphRoot);
 		addLights(graphRoot);
 		final TransformGroup interactionTransformGroup = addInteraction(graphRoot);
-		// Utils.addAxes(interactionTransformGroup);
+		Utils.addAxes(interactionTransformGroup);
 		final TransformGroup pathTransformGroup = new TransformGroup();
 		interactionTransformGroup.addChild(pathTransformGroup);
 
 		final File file = new File(".." + File.separator + "data", "TestRules");
 		final LSystemGrammar grammer = new LSystemGrammar(file);
 		final String turtleString = grammer.apply();
-//		final String turtleString = "+ B F - A F";
 		final Turtle3D turtle = TurtleFactory.createTurtle(turtleString);
 		turtle.interpret(pathTransformGroup, new TurtleConfig());
 		turtle.adjustView(universe.getViewingPlatform(), pathTransformGroup);
