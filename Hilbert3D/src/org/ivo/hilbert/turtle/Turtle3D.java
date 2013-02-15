@@ -82,27 +82,9 @@ public class Turtle3D extends PathSegment {
 				allPoints.add(nextPoint);
 				transforms.add(currentTransform);
 				currentTransform = new Transform3D(currentTransform);
-
-				// Debug axes
-				final TransformGroup transformGroup = new TransformGroup(
-						new Transform3D(tempMatrix, previousPoint, 1));
-				Utils.addAxes(transformGroup, config.getSegmentLength());
-				target.addChild(transformGroup);
+				turtleCoordinateSystem.setIdentity();
 			}
 		}
-
-		// final ArrayList<float[]> testList = new ArrayList<float[]>();
-		// final float[] test = new float[3];
-		// test[0] = test[1] = test[2] = 0;
-		// final int depth = 4;
-		// final Hilbert3D2 testHilbert = new Hilbert3D2(test, 0.8f, depth);
-		// testHilbert.getVertices(testList, depth);
-		// allPoints = new ArrayList<Vector3f>();
-		// for (int i = 0; i < testList.size(); i++) {
-		// final Vector3f point = new Vector3f(testList.get(i)[0],
-		// testList.get(i)[1], testList.get(i)[2]);
-		// allPoints.add(point);
-		// }
 
 		this.pathPoints = allPoints;
 		final Iterator<Vector3f> pointsIterator = pathPoints.iterator();
@@ -112,22 +94,11 @@ public class Turtle3D extends PathSegment {
 		while (pointsIterator.hasNext()) {
 			final Vector3f next = pointsIterator.next();
 			draw(previous, next, target, transformsIterator.next());
-			// drawLine(previous, next, target);
 			previous = next;
 		}
 		assert !transformsIterator.hasNext();
 
 		return target;
-	}
-
-	private void drawLine(final Vector3f previous, final Vector3f next,
-			final TransformGroup target) {
-		final LineArray lineArray = new LineArray(2, GeometryArray.COORDINATES);
-		final Point3f tempPoint = new Point3f(previous);
-		lineArray.setCoordinate(0, tempPoint);
-		tempPoint.set(next);
-		lineArray.setCoordinate(1, tempPoint);
-		target.addChild(new Shape3D(lineArray, config.getAppearance()));
 	}
 
 	private void draw(final Vector3f previous, final Vector3f next,

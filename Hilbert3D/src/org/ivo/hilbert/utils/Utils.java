@@ -13,12 +13,18 @@ import javax.vecmath.Vector3f;
 import com.sun.j3d.utils.geometry.Box;
 
 public class Utils {
-	
+
 	public static void addAxes(final TransformGroup baseTransform) {
-		addAxes(baseTransform, 1f);
+		addAxes(baseTransform, 1f, 0.005f);
 	}
 
-	public static void addAxes(final TransformGroup baseTransform, float axisLength) {
+	public static void addAxes(TransformGroup baseTransform,
+			float axisLength) {
+		addAxes(baseTransform, axisLength, 0.005f);
+	}
+
+	public static void addAxes(final TransformGroup baseTransform,
+			float axisLength, float axisWidth) {
 		final Appearance xAppearance = new Appearance();
 		xAppearance.setColoringAttributes(new ColoringAttributes());
 		xAppearance.getColoringAttributes().setColor(new Color3f(Color.RED));
@@ -33,7 +39,8 @@ public class Utils {
 
 		final Appearance pointAppearance = new Appearance();
 		pointAppearance.setColoringAttributes(new ColoringAttributes());
-		pointAppearance.getColoringAttributes().setColor(new Color3f(Color.ORANGE));
+		pointAppearance.getColoringAttributes().setColor(
+				new Color3f(Color.ORANGE));
 
 		final Transform3D xTransform = new Transform3D();
 		xTransform.setTranslation(new Vector3f(axisLength, 0, 0));
@@ -42,12 +49,12 @@ public class Utils {
 		final Transform3D zTransform = new Transform3D();
 		zTransform.setTranslation(new Vector3f(0, 0, axisLength));
 
-		final float axisWidth = 0.005f;
 		final Box xBox = new Box(axisLength, axisWidth, axisWidth, xAppearance);
 		final Box yBox = new Box(axisWidth, axisLength, axisWidth, yAppearance);
 		final Box zBox = new Box(axisWidth, axisWidth, axisLength, zAppearance);
 
-		final Box pointBox = new Box(axisWidth * 5, axisWidth * 5, axisWidth * 5, pointAppearance);
+		final Box pointBox = new Box(axisWidth * 5, axisWidth * 5,
+				axisWidth * 5, pointAppearance);
 
 		final TransformGroup xGroup = new TransformGroup(xTransform);
 		xGroup.addChild(xBox);
@@ -59,8 +66,8 @@ public class Utils {
 		baseTransform.addChild(xGroup);
 		baseTransform.addChild(yGroup);
 		baseTransform.addChild(zGroup);
-		
-		baseTransform.addChild(pointBox);
-	}
 
+		baseTransform.addChild(pointBox);
+
+	}
 }
