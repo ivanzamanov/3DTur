@@ -1,0 +1,5 @@
+A 2
+A -> B - F + C F C + F - D & F ^ D - F + & & C F C + F + B / /
+B -> A & F ^ C F B ^ F ^ D ^ ^ - F - D ^ | F ^ B | F C ^ F ^ A / /
+C -> | D ^ | F ^ B - F + C ^ F ^ A & & F A & F ^ C + F + B ^ F ^ D / /
+D -> | C F B - F + B | F A & F ^ A & & F B - F + B | F C / /
