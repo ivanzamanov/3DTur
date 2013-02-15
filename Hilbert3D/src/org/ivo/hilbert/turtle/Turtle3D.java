@@ -39,10 +39,8 @@ public class Turtle3D extends PathSegment {
 
 		// If we need to pass the transforms between adjecent vertices to the
 		// drawing delegate.
-		List<Transform3D> transforms = null;
-		if (config.getSaveTransforms()) {
-			transforms = new ArrayList<Transform3D>(path.size() / 3);
-		}
+		List<Transform3D> transforms = new ArrayList<Transform3D>(
+				path.size() / 3);
 
 		// Will reuse this object.
 		final Vector3f tempPoint = new Vector3f();
@@ -95,10 +93,8 @@ public class Turtle3D extends PathSegment {
 				// Append to the list of vertices, and if needed - append the
 				// rotation transform between these two vertices.
 				allPoints.add(nextPoint);
-				if (config.getSaveTransforms()) {
-					transforms.add(currentTransform);
-					currentTransform = new Transform3D(currentTransform);
-				}
+				transforms.add(currentTransform);
+				currentTransform = new Transform3D(currentTransform);
 
 				// Reset the turtle's coordinate system.
 				turtleCoordinateSystem.setIdentity();
@@ -107,10 +103,10 @@ public class Turtle3D extends PathSegment {
 
 		this.pathPoints = allPoints;
 		ITurtleDrawProxy proxy = config.getDrawProxy();
-		if (config.getSaveTransforms()) {
-			proxy.draw(allPoints, target, transforms, config);
-		} else {
+		try {
 			proxy.draw(allPoints, target, config);
+		} catch (UnsupportedOperationException e) {
+			proxy.draw(allPoints, target, transforms, config);
 		}
 
 		return target;
