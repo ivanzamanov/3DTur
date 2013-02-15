@@ -27,9 +27,6 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 
 public class Hilbert3D extends JApplet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	protected Canvas3D c1 = new Canvas3D(
@@ -60,9 +57,10 @@ public class Hilbert3D extends JApplet {
 		final TransformGroup pathTransformGroup = new TransformGroup();
 		interactionTransformGroup.addChild(pathTransformGroup);
 
-		final File file = new File(".." + File.separator + "data", "TestRules");
+		final File file = new File("data", "Rules");
 		final LSystemGrammar grammer = new LSystemGrammar(file);
 		final String turtleString = grammer.apply();
+		// final String turtleString = "F + F";
 		final Turtle3D turtle = TurtleFactory.createTurtle(turtleString);
 		turtle.interpret(pathTransformGroup, new TurtleConfig());
 		turtle.adjustView(universe.getViewingPlatform(), pathTransformGroup);

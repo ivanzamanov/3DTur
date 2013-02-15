@@ -1,2 +1,3 @@
-X 2
-X -> ^ < X F ^ < X F X - F ^ > > X F X & F + > > X F X - F > X - >
+A 3
+A -> + B F - A F A - F B +
+B -> - A F + B F B + F A -

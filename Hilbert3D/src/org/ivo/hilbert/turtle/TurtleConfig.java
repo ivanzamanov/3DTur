@@ -15,7 +15,7 @@ public class TurtleConfig {
 	public TurtleConfig() {
 		this.setAppearance(createDefaultAppearance());
 		this.setSegmentLength(0.3f);
-		this.setDrawProxy(new SmoothCurve());
+		this.setDrawProxy(new SmoothCurveDraw());
 	}
 
 	public Appearance getAppearance() {
@@ -50,7 +50,7 @@ public class TurtleConfig {
 		return drawProxy;
 	}
 
-	public void setDrawProxy(ITurtleDrawProxy drawProxy) {
+	public void setDrawProxy(final ITurtleDrawProxy drawProxy) {
 		this.drawProxy = drawProxy;
 	}
 }

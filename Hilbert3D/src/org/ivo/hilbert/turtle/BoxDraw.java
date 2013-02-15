@@ -10,7 +10,7 @@ import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.geometry.Box;
 
-public class BoxDrawProxy implements ITurtleDrawProxy {
+public class BoxDraw implements ITurtleDrawProxy {
 
 	@Override
 	public void draw(List<Vector3f> vertices, Group target,
