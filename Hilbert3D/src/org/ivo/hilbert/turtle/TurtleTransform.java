@@ -1,7 +1,5 @@
 package org.ivo.hilbert.turtle;
 
-import java.util.List;
-
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 
@@ -22,8 +20,7 @@ public abstract class TurtleTransform extends PathSegment {
 	}
 
 	@Override
-	public final TransformGroup interpret(final TransformGroup target,
-			final List<PathSegment> previousSegments, TurtleConfig config) {
+	public final TransformGroup interpret(final TransformGroup target, TurtleConfig config) {
 		final TransformGroup newGroup = new TransformGroup(transform);
 		target.addChild(newGroup);
 		return newGroup;

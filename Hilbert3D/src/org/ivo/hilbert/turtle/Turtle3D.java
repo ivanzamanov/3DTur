@@ -4,24 +4,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.media.j3d.GeometryArray;
-import javax.media.j3d.LineArray;
-import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Matrix3f;
-import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
 import org.ivo.hilbert.utils.Utils;
 
-import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.universe.ViewingPlatform;
 
 public class Turtle3D extends PathSegment {
 
 	private final ArrayList<PathSegment> path;
-	private TurtleConfig config;
 	private List<Vector3f> pathPoints;
 
 	public Turtle3D() {
@@ -38,89 +32,104 @@ public class Turtle3D extends PathSegment {
 	}
 
 	@Override
-	public TransformGroup interpret(final TransformGroup target,
-			final List<PathSegment> previousSegments, final TurtleConfig config) {
-		this.config = config;
-
+	public TransformGroup interpret(final TransformGroup target, final TurtleConfig config) {
+		
+		// Will hold the ordered list of vertices
 		final List<Vector3f> allPoints = new ArrayList<Vector3f>(
 				path.size() / 3);
-		final List<Transform3D> transforms = new ArrayList<Transform3D>(
-				path.size() / 3);
+		
+		// If we need to pass the transforms between adjecent vertices to the drawing delegate.
+		List<Transform3D> transforms = null;
+		if(config.getSaveTransforms()) {
+			transforms = new ArrayList<Transform3D>(
+					path.size() / 3);
+		}
 
+		// Will reuse this object.
 		final Vector3f tempPoint = new Vector3f();
+		
+		// Start at (0,0).
 		allPoints.add(new Vector3f(tempPoint));
 
 		final TransformGroup mainAxesGroup = new TransformGroup();
 		Utils.addAxes(mainAxesGroup, 10f);
 		target.addChild(mainAxesGroup);
 
+		// The current coordinate system of the turtle.
 		final Matrix3f turtleCoordinateSystem = new Matrix3f();
 		turtleCoordinateSystem.setIdentity();
 
+		// The second point will be at (1,0,0) unless some transformations are applied.
 		tempPoint.set(1, 0, 0);
+		
+		// Will hold the rotations from the last vertex to the next.
 		Transform3D currentTransform = new Transform3D();
 
+		// Reuse this.
 		final Matrix3f tempMatrix = new Matrix3f();
 
 		for (int i = 0; i < path.size(); i++) {
 			final PathSegment segment = path.get(i);
 			if (segment.getType().equals(PathSegmentType.TRANSFORM)) {
+				// Transformation, i.e. rotation around one of the axes.
 				final TurtleTransform turtleTransform = (TurtleTransform) segment;
 				final Transform3D transform = turtleTransform.getTransform();
+				
+				// Simply multiply the current rotation, i.e. append to it.
 				currentTransform.mul(transform);
 			} else if (segment.getType().equals(PathSegmentType.BODY)) {
+				// Move forward.
+				
+				// Get the rotation only, the distance between vertices is held
+				// in the configuration object.
 				currentTransform.get(tempMatrix);
+				// Rotate the turtle
 				turtleCoordinateSystem.mul(tempMatrix);
-				assert turtleCoordinateSystem.determinant() == 1;
 				final Vector3f previousPoint = allPoints
 						.get(allPoints.size() - 1);
+				// Start at the last point.
 				final Vector3f nextPoint = new Vector3f(previousPoint);
+				// Move along the current X axis by the length of a single segment.
 				turtleCoordinateSystem.getColumn(0, tempPoint);
 				tempPoint.scale(config.getSegmentLength());
-				assert tempPoint.length() == config.getSegmentLength();
+				// And translate by the previous point.
 				nextPoint.add(tempPoint);
+				
+				// Append to the list of vertices, and if needed - append the rotation transform between these two vertices.
 				allPoints.add(nextPoint);
-				transforms.add(currentTransform);
-				currentTransform = new Transform3D(currentTransform);
+				if (config.getSaveTransforms()) {
+					transforms.add(currentTransform);
+					currentTransform = new Transform3D(currentTransform);
+				}
+				
+				// Reset the turtle's coordinate system.
 				turtleCoordinateSystem.setIdentity();
 			}
 		}
 
 		this.pathPoints = allPoints;
 		final Iterator<Vector3f> pointsIterator = pathPoints.iterator();
-		final Iterator<Transform3D> transformsIterator = transforms.iterator();
-		assert pointsIterator.hasNext();
+		// At least (0,0) is always present.
 		Vector3f previous = pointsIterator.next();
-		while (pointsIterator.hasNext()) {
-			final Vector3f next = pointsIterator.next();
-			draw(previous, next, target, transformsIterator.next());
-			previous = next;
+		ITurtleDrawProxy proxy = config.getDrawProxy();
+		if(config.getSaveTransforms()) {
+			final Iterator<Transform3D> transformsIterator = transforms.iterator();
+			while (pointsIterator.hasNext()) {
+				final Vector3f next = pointsIterator.next();
+				proxy.draw(previous, next, target, transformsIterator.next(), config);
+				previous = next;
+			}
+		} else {
+			while (pointsIterator.hasNext()) {
+				final Vector3f next = pointsIterator.next();
+				proxy.draw(previous, next, target, config);
+				previous = next;
+			}
 		}
-		assert !transformsIterator.hasNext();
 
 		return target;
 	}
 
-	private void draw(final Vector3f previous, final Vector3f next,
-			final TransformGroup target, final Transform3D rotationTransform) {
-
-		rotationTransform.setTranslation(previous);
-		final TransformGroup turtleHeadingTransformGroup = new TransformGroup(
-				rotationTransform);
-
-		rotationTransform.setIdentity();
-		float singleBoxLength = config.getSegmentLength() / 2;
-		final Vector3f boxTranslation = new Vector3f(singleBoxLength, 0f, 0f);
-		rotationTransform.setTranslation(boxTranslation);
-		final TransformGroup boxCenteringTransformGroup = new TransformGroup(
-				rotationTransform);
-		float boxWidth = 0.02f;
-		final Box box = new Box(singleBoxLength, boxWidth, boxWidth,
-				config.getAppearance());
-		boxCenteringTransformGroup.addChild(box);
-		turtleHeadingTransformGroup.addChild(boxCenteringTransformGroup);
-		target.addChild(turtleHeadingTransformGroup);
-	}
 
 	public void adjustView(final ViewingPlatform viewingPlatform,
 			final TransformGroup targetTransformGroup) {

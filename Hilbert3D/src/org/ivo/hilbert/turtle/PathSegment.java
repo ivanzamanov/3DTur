@@ -1,7 +1,5 @@
 package org.ivo.hilbert.turtle;
 
-import java.util.List;
-
 import javax.media.j3d.TransformGroup;
 
 public abstract class PathSegment {
@@ -16,8 +14,7 @@ public abstract class PathSegment {
 		return type;
 	}
 
-	public abstract TransformGroup interpret(TransformGroup target,
-			List<PathSegment> previousSegments, TurtleConfig config);
+	public abstract TransformGroup interpret(TransformGroup target, TurtleConfig config);
 
 	static enum PathSegmentType {
 		TRANSFORM, BODY, EMPTY

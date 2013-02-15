@@ -10,10 +10,14 @@ public class TurtleConfig {
 
 	private Appearance appearance;
 	private float segmentLength;
+	private boolean saveTransforms;
+	private ITurtleDrawProxy drawProxy;
 
 	public TurtleConfig() {
 		this.setAppearance(createDefaultAppearance());
 		this.setSegmentLength(0.3f);
+		this.setSaveTransforms(true);
+		this.setDrawProxy(new BoxDrawProxy());
 	}
 
 	public Appearance getAppearance() {
@@ -42,5 +46,21 @@ public class TurtleConfig {
 
 	public void setSegmentLength(final float segmentLength) {
 		this.segmentLength = segmentLength;
+	}
+
+	public boolean getSaveTransforms() {
+		return saveTransforms;
+	}
+
+	public void setSaveTransforms(boolean saveTransforms) {
+		this.saveTransforms = saveTransforms;
+	}
+
+	public ITurtleDrawProxy getDrawProxy() {
+		return drawProxy;
+	}
+
+	public void setDrawProxy(ITurtleDrawProxy drawProxy) {
+		this.drawProxy = drawProxy;
 	}
 }

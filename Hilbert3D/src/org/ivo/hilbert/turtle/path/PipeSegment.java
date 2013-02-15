@@ -1,14 +1,11 @@
 package org.ivo.hilbert.turtle.path;
 
-import java.util.List;
-
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
 import org.ivo.hilbert.turtle.BodySegment;
-import org.ivo.hilbert.turtle.PathSegment;
 import org.ivo.hilbert.turtle.TurtleConfig;
 
 import com.sun.j3d.utils.geometry.Cylinder;
@@ -22,8 +19,7 @@ public class PipeSegment extends BodySegment {
 	private static final float RADIUS = 0.1f;
 
 	@Override
-	public TransformGroup interpret(final TransformGroup target,
-			final List<PathSegment> previousSegments, final TurtleConfig config) {
+	public TransformGroup interpret(final TransformGroup target, final TurtleConfig config) {
 
 		// final GeometryArray quads = new QuadArray(NUM_VERTICES,
 		// GeometryArray.COORDINATES);

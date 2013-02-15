@@ -64,7 +64,7 @@ public class Hilbert3D extends JApplet {
 		final String turtleString = grammer.apply();
 //		final String turtleString = "+ B F - A F";
 		final Turtle3D turtle = TurtleFactory.createTurtle(turtleString);
-		turtle.interpret(pathTransformGroup, null, new TurtleConfig());
+		turtle.interpret(pathTransformGroup, new TurtleConfig());
 		turtle.adjustView(universe.getViewingPlatform(), pathTransformGroup);
 
 		graphRoot.compile();
