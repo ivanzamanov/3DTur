@@ -5,8 +5,11 @@ import javax.media.j3d.TransformGroup;
 
 public abstract class TurtleTransform extends PathSegment {
 
+	protected double angle;
+
 	protected TurtleTransform() {
 		super(PathSegmentType.TRANSFORM);
+		angle = TurtleConfig.angle;
 	}
 
 	private Transform3D transform;
@@ -20,7 +23,7 @@ public abstract class TurtleTransform extends PathSegment {
 	}
 
 	@Override
-	public final TransformGroup interpret(final TransformGroup target, TurtleConfig config) {
+	public final TransformGroup interpret(final TransformGroup target) {
 		final TransformGroup newGroup = new TransformGroup(transform);
 		target.addChild(newGroup);
 		return newGroup;

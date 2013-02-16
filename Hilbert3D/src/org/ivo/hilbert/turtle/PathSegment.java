@@ -14,7 +14,7 @@ public abstract class PathSegment {
 		return type;
 	}
 
-	public abstract TransformGroup interpret(TransformGroup target, TurtleConfig config);
+	public abstract TransformGroup interpret(TransformGroup target);
 
 	static enum PathSegmentType {
 		TRANSFORM, BODY, EMPTY

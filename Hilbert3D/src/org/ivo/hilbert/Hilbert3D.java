@@ -17,7 +17,6 @@ import javax.vecmath.Vector3f;
 
 import org.ivo.hilbert.grammar.LSystemGrammar;
 import org.ivo.hilbert.turtle.Turtle3D;
-import org.ivo.hilbert.turtle.TurtleConfig;
 import org.ivo.hilbert.turtle.TurtleFactory;
 import org.ivo.hilbert.utils.Utils;
 
@@ -62,7 +61,7 @@ public class Hilbert3D extends JApplet {
 		final String turtleString = grammer.apply();
 		// final String turtleString = "F + F";
 		final Turtle3D turtle = TurtleFactory.createTurtle(turtleString);
-		turtle.interpret(pathTransformGroup, new TurtleConfig());
+		turtle.interpret(pathTransformGroup);
 		turtle.adjustView(universe.getViewingPlatform(), pathTransformGroup);
 
 		graphRoot.compile();

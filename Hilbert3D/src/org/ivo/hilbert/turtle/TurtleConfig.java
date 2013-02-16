@@ -8,18 +8,12 @@ import javax.vecmath.Color3f;
 
 public class TurtleConfig {
 
-	private Appearance appearance;
-	private float segmentLength;
-	private ITurtleDrawProxy drawProxy;
+	public static Appearance appearance = createDefaultAppearance();
+	public static float segmentLength = 1f;
+	public static double angle = Math.PI / 2;
+	public static ITurtleDrawProxy drawProxy = new SmoothCurveDraw();
 
-	public TurtleConfig() {
-		this.setAppearance(createDefaultAppearance());
-		this.setSegmentLength(0.3f);
-		this.setDrawProxy(new SmoothCurveDraw());
-	}
-
-	public Appearance getAppearance() {
-		return appearance;
+	private TurtleConfig() {
 	}
 
 	private static Appearance createDefaultAppearance() {
@@ -32,25 +26,5 @@ public class TurtleConfig {
 				diffuseColor, specularColor, 0);
 		defaultAppearance.setMaterial(pathMaterial);
 		return defaultAppearance;
-	}
-
-	public void setAppearance(final Appearance appearance) {
-		this.appearance = appearance;
-	}
-
-	public float getSegmentLength() {
-		return segmentLength;
-	}
-
-	public void setSegmentLength(final float segmentLength) {
-		this.segmentLength = segmentLength;
-	}
-
-	public ITurtleDrawProxy getDrawProxy() {
-		return drawProxy;
-	}
-
-	public void setDrawProxy(final ITurtleDrawProxy drawProxy) {
-		this.drawProxy = drawProxy;
 	}
 }

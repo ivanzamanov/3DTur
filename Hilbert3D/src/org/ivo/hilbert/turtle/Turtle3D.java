@@ -30,8 +30,7 @@ public class Turtle3D extends PathSegment {
 	}
 
 	@Override
-	public TransformGroup interpret(final TransformGroup target,
-			final TurtleConfig config) {
+	public TransformGroup interpret(final TransformGroup target) {
 
 		// Will hold the ordered list of vertices
 		final List<Vector3f> allPoints = new ArrayList<Vector3f>(
@@ -39,7 +38,7 @@ public class Turtle3D extends PathSegment {
 
 		// If we need to pass the transforms between adjecent vertices to the
 		// drawing delegate.
-		List<Transform3D> transforms = new ArrayList<Transform3D>(
+		final List<Transform3D> transforms = new ArrayList<Transform3D>(
 				path.size() / 3);
 
 		// Will reuse this object.
@@ -86,7 +85,7 @@ public class Turtle3D extends PathSegment {
 				// Move along the current X axis by the length of a single
 				// segment.
 				turtleCoordinateSystem.getColumn(0, tempPoint);
-				tempPoint.scale(config.getSegmentLength());
+				tempPoint.scale(TurtleConfig.segmentLength);
 				// And translate by the previous point.
 				nextPoint.add(tempPoint);
 
@@ -102,11 +101,11 @@ public class Turtle3D extends PathSegment {
 		}
 
 		this.pathPoints = allPoints;
-		ITurtleDrawProxy proxy = config.getDrawProxy();
+		final ITurtleDrawProxy proxy = TurtleConfig.drawProxy;
 		try {
-			proxy.draw(allPoints, target, config);
-		} catch (UnsupportedOperationException e) {
-			proxy.draw(allPoints, target, transforms, config);
+			proxy.draw(allPoints, target);
+		} catch (final UnsupportedOperationException e) {
+			proxy.draw(allPoints, target, transforms);
 		}
 
 		return target;

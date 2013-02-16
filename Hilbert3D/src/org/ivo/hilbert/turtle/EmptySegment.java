@@ -10,7 +10,7 @@ public class EmptySegment extends PathSegment {
 	}
 
 	@Override
-	public TransformGroup interpret(final TransformGroup target, TurtleConfig config) {
+	public TransformGroup interpret(final TransformGroup target) {
 		return target;
 	}
 

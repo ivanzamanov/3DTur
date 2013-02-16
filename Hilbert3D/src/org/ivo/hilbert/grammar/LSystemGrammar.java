@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import org.ivo.hilbert.turtle.BoxDraw;
+import org.ivo.hilbert.turtle.TurtleConfig;
+
 public class LSystemGrammar {
 
 	private final ArrayList<Rule> rulesList;
@@ -28,12 +31,28 @@ public class LSystemGrammar {
 		final ArrayList<Rule> result = new ArrayList<Rule>();
 		final Scanner scanner = new Scanner(is);
 		scanner.useDelimiter(Pattern.quote("\n"));
+
+		final String firstLine = scanner.next();
+		final String[] vals = firstLine.split(Pattern.quote(" "));
+
+		if (vals.length > 0) {
+			TurtleConfig.segmentLength = Float.parseFloat(vals[0]);
+			if (vals.length > 1) {
+				TurtleConfig.angle = (float) Math.toRadians(Double
+						.parseDouble(vals[1]));
+			}
+			if (vals.length > 2 && vals[2].startsWith("0")) {
+				TurtleConfig.drawProxy = new BoxDraw();
+			}
+		}
+
 		final String[] params = scanner.next().split(Pattern.quote(" "));
 		final StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < params.length - 1; i++) {
 			builder.append(params[i].trim());
 			builder.append(" ");
 		}
+
 		startingString = builder.toString();
 		iterations = Integer.parseInt(params[params.length - 1].trim());
 

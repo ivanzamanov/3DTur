@@ -19,7 +19,7 @@ public class PipeSegment extends BodySegment {
 	private static final float RADIUS = 0.1f;
 
 	@Override
-	public TransformGroup interpret(final TransformGroup target, final TurtleConfig config) {
+	public TransformGroup interpret(final TransformGroup target) {
 
 		// final GeometryArray quads = new QuadArray(NUM_VERTICES,
 		// GeometryArray.COORDINATES);
@@ -32,10 +32,10 @@ public class PipeSegment extends BodySegment {
 		final Vector3f vector = new Vector3f();
 
 		// The total length of the generated body.
-		final float totalLength = config.getSegmentLength();
+		final float totalLength = TurtleConfig.segmentLength;
 
 		final Cylinder cyl = new Cylinder(RADIUS, totalLength,
-				config.getAppearance());
+				TurtleConfig.appearance);
 
 		// Rotate the cylinder so it's Z axis will align with our X axis.
 		transform.setIdentity();
@@ -51,11 +51,11 @@ public class PipeSegment extends BodySegment {
 
 		target.addChild(cylinderGroup);
 		// Just add the sphere at (0,0,0) so adjecent segments will overlap.
-		target.addChild(new Sphere(RADIUS, config.getAppearance()));
+		target.addChild(new Sphere(RADIUS, TurtleConfig.appearance));
 
 		// Next segments will be
 		// appended to the "end" of the body.
-		vector.set(config.getSegmentLength(), 0, 0);
+		vector.set(TurtleConfig.segmentLength, 0, 0);
 		transform.setIdentity();
 		transform.setTranslation(vector);
 		final TransformGroup resultGroup = new TransformGroup(transform);

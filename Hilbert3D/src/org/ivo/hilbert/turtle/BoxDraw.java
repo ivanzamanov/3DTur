@@ -13,11 +13,11 @@ import com.sun.j3d.utils.geometry.Box;
 public class BoxDraw implements ITurtleDrawProxy {
 
 	@Override
-	public void draw(List<Vector3f> vertices, Group target,
-			List<Transform3D> rotations, TurtleConfig config) {
+	public void draw(final List<Vector3f> vertices, final Group target,
+			final List<Transform3D> rotations) {
 
-		Iterator<Vector3f> verticesIterator = vertices.iterator();
-		Iterator<Transform3D> transformsIterator = rotations.iterator();
+		final Iterator<Vector3f> verticesIterator = vertices.iterator();
+		final Iterator<Transform3D> transformsIterator = rotations.iterator();
 		Vector3f previous;
 		Vector3f next = verticesIterator.next();
 		Transform3D transform;
@@ -26,20 +26,20 @@ public class BoxDraw implements ITurtleDrawProxy {
 			next = verticesIterator.next();
 			transform = transformsIterator.next();
 			transform.setTranslation(previous);
-			
+
 			final TransformGroup turtleHeadingTransformGroup = new TransformGroup(
 					transform);
 
 			transform.setIdentity();
-			float singleBoxLength = config.getSegmentLength() / 2;
+			final float singleBoxLength = TurtleConfig.segmentLength / 2;
 			final Vector3f boxTranslation = new Vector3f(singleBoxLength, 0f,
 					0f);
 			transform.setTranslation(boxTranslation);
 			final TransformGroup boxCenteringTransformGroup = new TransformGroup(
 					transform);
-			float boxWidth = 0.02f;
+			final float boxWidth = 0.02f;
 			final Box box = new Box(singleBoxLength, boxWidth, boxWidth,
-					config.getAppearance());
+					TurtleConfig.appearance);
 			boxCenteringTransformGroup.addChild(box);
 			turtleHeadingTransformGroup.addChild(boxCenteringTransformGroup);
 			target.addChild(turtleHeadingTransformGroup);
@@ -47,7 +47,7 @@ public class BoxDraw implements ITurtleDrawProxy {
 	}
 
 	@Override
-	public void draw(List<Vector3f> vertices, Group target, TurtleConfig config) {
+	public void draw(final List<Vector3f> vertices, final Group target) {
 		throw new UnsupportedOperationException("Unsupported");
 	}
 }

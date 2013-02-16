@@ -16,13 +16,13 @@ public class SmoothCurveDraw implements ITurtleDrawProxy {
 	private final int iTERATIONS = 40;
 	private final float STEP = 1f / iTERATIONS;
 
-	private final float RADIUS = 0.01f;
+	private final float RADIUS = 0.02f;
 
 	// private final float LENGTH = 0.02f;
 
 	@Override
 	public void draw(final List<Vector3f> vertices, final Group target,
-			final List<Transform3D> rotations, final TurtleConfig config) {
+			final List<Transform3D> rotations) {
 		final Iterator<Vector3f> verticesIterator = vertices.iterator();
 		Vector3f pPrev = verticesIterator.next();
 		Vector3f prev = verticesIterator.next();
@@ -30,7 +30,7 @@ public class SmoothCurveDraw implements ITurtleDrawProxy {
 
 		Vector3f mid1 = getMid(pPrev, prev);
 		Vector3f mid2 = getMid(prev, next);
-		drawCurve(mid1, prev, mid2, target, config);
+		drawCurve(mid1, prev, mid2, target);
 
 		while (verticesIterator.hasNext()) {
 			pPrev = prev;
@@ -39,13 +39,12 @@ public class SmoothCurveDraw implements ITurtleDrawProxy {
 
 			mid1 = getMid(pPrev, prev);
 			mid2 = getMid(prev, next);
-			drawCurve(mid1, prev, mid2, target, config);
+			drawCurve(mid1, prev, mid2, target);
 		}
 	}
 
 	@Override
-	public void draw(final List<Vector3f> vertices, final Group target,
-			final TurtleConfig config) {
+	public void draw(final List<Vector3f> vertices, final Group target) {
 		throw new UnsupportedOperationException("Not implemented.");
 	}
 
@@ -57,7 +56,7 @@ public class SmoothCurveDraw implements ITurtleDrawProxy {
 	}
 
 	private void drawCurve(final Vector3f from, final Vector3f control,
-			final Vector3f to, final Group target, final TurtleConfig config) {
+			final Vector3f to, final Group target) {
 
 		// Reuse transform and vectors.
 		final Transform3D transform = new Transform3D();
@@ -67,7 +66,7 @@ public class SmoothCurveDraw implements ITurtleDrawProxy {
 		final Vector3f nextSave = new Vector3f();
 
 		for (float i = 1; i <= iTERATIONS; i++) {
-			final Group body = createBody(config);
+			final Group body = createBody();
 
 			final float t = i * STEP;
 			pPrevSave.set(from);
@@ -106,8 +105,8 @@ public class SmoothCurveDraw implements ITurtleDrawProxy {
 		}
 	}
 
-	private Group createBody(final TurtleConfig config) {
-		return new Sphere(RADIUS, config.getAppearance());
+	private Group createBody() {
+		return new Sphere(RADIUS, TurtleConfig.appearance);
 	}
 
 	/*

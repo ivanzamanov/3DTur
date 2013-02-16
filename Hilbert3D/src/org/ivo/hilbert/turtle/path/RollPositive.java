@@ -8,7 +8,7 @@ public class RollPositive extends TurtleTransform {
 
 	public RollPositive() {
 		final Transform3D transform = new Transform3D();
-		transform.rotX(Math.PI / 2);
+		transform.rotX(angle);
 		setTransform(transform);
 	}
 }

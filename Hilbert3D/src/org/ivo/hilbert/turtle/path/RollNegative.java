@@ -8,7 +8,7 @@ public class RollNegative extends TurtleTransform {
 
 	public RollNegative() {
 		final Transform3D transform = new Transform3D();
-		transform.rotX(-Math.PI / 2);
+		transform.rotX(-angle);
 		setTransform(transform);
 	}
 }

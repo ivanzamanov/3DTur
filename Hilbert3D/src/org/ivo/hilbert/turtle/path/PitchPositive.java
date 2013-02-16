@@ -8,7 +8,7 @@ public class PitchPositive extends TurtleTransform {
 
 	public PitchPositive() {
 		final Transform3D transform = new Transform3D();
-		transform.rotY(Math.PI / 2);
+		transform.rotY(angle);
 		setTransform(transform);
 	}
 }

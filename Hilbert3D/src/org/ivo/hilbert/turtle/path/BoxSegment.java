@@ -15,9 +15,9 @@ public class BoxSegment extends BodySegment {
 	private static final float BOX_LENGTH = 0.2f;
 
 	@Override
-	public TransformGroup interpret(final TransformGroup target, final TurtleConfig config) {
+	public TransformGroup interpret(final TransformGroup target) {
 
-		final Appearance appearance = config.getAppearance();
+		final Appearance appearance = TurtleConfig.appearance;
 		final Box box = new Box(0.2f, 0.1f, 0.03f, appearance);
 
 		final Transform3D resultTransform = new Transform3D();

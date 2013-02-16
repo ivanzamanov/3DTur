@@ -8,7 +8,7 @@ public class YawNegative extends TurtleTransform {
 
 	public YawNegative() {
 		final Transform3D transform = new Transform3D();
-		transform.rotZ(-Math.PI / 2);
+		transform.rotZ(-angle);
 		setTransform(transform);
 	}
 }

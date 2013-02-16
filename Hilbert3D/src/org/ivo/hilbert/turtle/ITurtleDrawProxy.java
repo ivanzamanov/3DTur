@@ -15,11 +15,9 @@ public interface ITurtleDrawProxy {
 	 *            Target to draw on.
 	 * @param rotations
 	 *            For convenience - the rotation from "from" to "to".
-	 * @param config
-	 *            TODO
 	 */
 	public void draw(List<Vector3f> vertices, Group target,
-			List<Transform3D> rotations, TurtleConfig config)
+			List<Transform3D> rotations)
 			throws UnsupportedOperationException;
 
 	/**
@@ -28,8 +26,6 @@ public interface ITurtleDrawProxy {
 	 *            Starting point
 	 * @param target
 	 *            Target to draw on.
-	 * @param config
-	 *            TODO
 	 */
-	public void draw(List<Vector3f> vertices, Group target, TurtleConfig config);
+	public void draw(List<Vector3f> vertices, Group target);
 }
